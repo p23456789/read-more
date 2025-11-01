@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import { useState, useEffect } from '@wordpress/element';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import {
@@ -12,7 +12,6 @@ import {
 	Placeholder,
 	__experimentalText as Text,
 	__experimentalHeading as Heading,
-	Pagination,
 	SearchControl,
 	Notice,
 	Card,
@@ -22,6 +21,7 @@ import {
 import { useSelect } from '@wordpress/data';
 import { store as coreDataStore } from '@wordpress/core-data';
 import apiFetch from '@wordpress/api-fetch';
+import { chevronLeft, chevronRight } from '@wordpress/icons';
 
 /**
  * Styles
@@ -153,11 +153,6 @@ export default function Edit( { attributes, setAttributes } ) {
 			parse: false,
 		} )
 			.then( ( response ) => {
-				// Get total pages from headers
-				const totalItems = parseInt(
-					response.headers.get( 'X-WP-Total' ) || 0,
-					10
-				);
 				const pages = parseInt(
 					response.headers.get( 'X-WP-TotalPages' ) || 1,
 					10
@@ -169,7 +164,6 @@ export default function Edit( { attributes, setAttributes } ) {
 					setTotalPages( pages );
 					setIsSearching( false );
 
-					// Show helpful message if no results
 					if ( posts.length === 0 ) {
 						setErrorMessage(
 							__(
@@ -259,11 +253,34 @@ export default function Edit( { attributes, setAttributes } ) {
 				</div>
 
 				{ totalPages > 1 && (
-					<Pagination
-						currentPage={ page }
-						totalPages={ totalPages }
-						onChange={ setPage }
-					/>
+					<div className="dmg-read-more-pagination">
+						<Button
+							variant="secondary"
+							onClick={ () => setPage( Math.max( 1, page - 1 ) ) }
+							disabled={ page === 1 }
+							icon={ chevronLeft }
+							label={ __( 'Previous page', 'dmg-read-more' ) }
+							showTooltip
+						/>
+						<Text variant="muted">
+							{ sprintf(
+								/* translators: 1: Current page number. 2: Total number of pages. */
+								__( '%1$s of %2$s', 'dmg-read-more' ),
+								page,
+								totalPages
+							) }
+						</Text>
+						<Button
+							variant="secondary"
+							onClick={ () =>
+								setPage( Math.min( totalPages, page + 1 ) )
+							}
+							disabled={ page === totalPages }
+							icon={ chevronRight }
+							label={ __( 'Next page', 'dmg-read-more' ) }
+							showTooltip
+						/>
+					</div>
 				) }
 			</>
 		);
