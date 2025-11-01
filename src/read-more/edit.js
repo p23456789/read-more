@@ -351,7 +351,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						<Text variant="muted">
 							{ sprintf(
 								/* translators: 1: Current page number. 2: Total number of pages. */
-								__( '%1$s of %2$s', 'dmg-read-more' ),
+								__( 'Page %1$s of %2$s', 'dmg-read-more' ),
 								page,
 								totalPages
 							) }
