@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 /**
  * Plugin Name:       DMG Read More
- * Description:       Insert stylised posts linkså.
+ * Description:       Insert stylised posts links.
  * Version:           0.1.0
  * Requires at least: 6.8
  * Requires PHP:      8.4
