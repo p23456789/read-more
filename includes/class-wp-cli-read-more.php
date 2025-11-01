@@ -98,7 +98,6 @@ class WP_CLI_Read_More extends WPCOM_VIP_CLI_Command {
 				'posts_per_page'         => $per_page,
 				's'                      => '<!-- wp:dmg/read-more',
 				'search_columns'         => [ 'post_content' ],
-				'suppress_filters'       => true,
 				'update_menu_item_cache' => false,
 				'update_post_meta_cache' => false,
 				'update_post_term_cache' => false,
