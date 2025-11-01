@@ -7,8 +7,6 @@ import {
 	Button,
 	Spinner,
 	Placeholder,
-	__experimentalText as Text,
-	__experimentalHeading as Heading,
 	Notice,
 	SearchControl,
 } from '@wordpress/components';
@@ -16,6 +14,7 @@ import { useSelect } from '@wordpress/data';
 import { store as coreDataStore } from '@wordpress/core-data';
 import apiFetch from '@wordpress/api-fetch';
 import { chevronLeft, chevronRight } from '@wordpress/icons';
+import { dateI18n } from '@wordpress/date';
 
 /**
  * Styles
@@ -348,16 +347,16 @@ export default function Edit( { attributes, setAttributes } ) {
 							role="option"
 							aria-selected={ post.id === postId }
 						>
-							<Heading level={ 4 }>
+							<h4>
 								<span
 									dangerouslySetInnerHTML={ {
 										__html: post.title.rendered,
 									} }
 								/>
-							</Heading>
-							<Text variant="muted">
-								{ new Date( post.date ).toLocaleDateString() }
-							</Text>
+							</h4>
+							<span className="dmg-read-more-text-muted">
+								{ dateI18n( 'M j, Y', post.date ) }
+							</span>
 						</li>
 					) ) }
 				</ul>
@@ -372,14 +371,14 @@ export default function Edit( { attributes, setAttributes } ) {
 							label={ __( 'Previous page', 'dmg-read-more' ) }
 							showTooltip
 						/>
-						<Text variant="muted">
+						<span className="dmg-read-more-text-muted">
 							{ sprintf(
 								/* translators: 1: Current page number. 2: Total number of pages. */
 								__( 'Page %1$s of %2$s', 'dmg-read-more' ),
 								page,
 								totalPages
 							) }
-						</Text>
+						</span>
 						<Button
 							variant="secondary"
 							onClick={ () =>
@@ -478,11 +477,11 @@ export default function Edit( { attributes, setAttributes } ) {
 					) }
 
 					<div className="dmg-read-more-results-container">
-						<Heading level={ 3 }>
+						<h3>
 							{ searchTerm || searchId
 								? __( 'Search Results', 'dmg-read-more' )
 								: __( 'Recent Posts', 'dmg-read-more' ) }
-						</Heading>
+						</h3>
 						<div>{ renderPostList() }</div>
 					</div>
 				</PanelBody>

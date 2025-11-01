@@ -9,7 +9,7 @@ import { useBlockProps } from '@wordpress/block-editor';
  * @return {Element}                  Saved block markup.
  */
 export default function save( { attributes } ) {
-	const { postId, postTitle, postUrl } = attributes;
+	const { postTitle, postUrl } = attributes;
 
 	// If no post is selected, don't render anything.
 	if ( ! postTitle || ! postUrl ) {
