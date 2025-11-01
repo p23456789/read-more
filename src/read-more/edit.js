@@ -357,14 +357,14 @@ export default function Edit( { attributes, setAttributes } ) {
 				<Placeholder
 					label={ __( 'DMG Read More', 'dmg-read-more' ) }
 					instructions={ __(
-						'Select a post from the sidebar to create a stylized link.',
+						'Select a post from the sidebar to create a stylised link.',
 						'dmg-read-more'
 					) }
 					icon="admin-links"
 				/>
 			) : (
 				<p { ...blockProps }>
-					{ __( 'Read More:', 'dmg-read-more' ) }
+					{ __( 'Read more: ', 'dmg-read-more' ) }
 					<a href={ postUrl }>{ postTitle }</a>
 				</p>
 			) }
