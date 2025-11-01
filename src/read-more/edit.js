@@ -26,6 +26,20 @@ import { chevronLeft, chevronRight } from '@wordpress/icons';
 import './editor.scss';
 
 /**
+ * Debounce helper function.
+ */
+function useDebouncedValue( value, delayMs ) {
+	const [ debounced, setDebounced ] = useState( value );
+
+	useEffect( () => {
+		const id = setTimeout( () => setDebounced( value ), delayMs );
+		return () => clearTimeout( id );
+	}, [ value, delayMs ] );
+
+	return debounced;
+}
+
+/**
  * Edit component for the Read More block.
  *
  * @param {Object}   props               Block props.
@@ -45,6 +59,12 @@ export default function Edit( { attributes, setAttributes } ) {
 	const [ totalPages, setTotalPages ] = useState( 1 );
 	const [ errorMessage, setErrorMessage ] = useState( '' );
 	const postsPerPage = 5;
+	const abortRef = useRef( null );
+	const cacheRef = useRef( new Map() );
+
+	// Debounced inputs to avoid firing requests on every keystroke
+	const debouncedTerm = useDebouncedValue( searchTerm, 300 );
+	const debouncedId = useDebouncedValue( searchId, 300 );
 
 	// Get recent posts for initial display - limited fetch with only needed fields
 	const recentPosts = useSelect( ( select ) => {
@@ -275,11 +295,33 @@ export default function Edit( { attributes, setAttributes } ) {
 		);
 	};
 
-	// Trigger search when page changes
+	// Auto-search when debounced inputs change (reset to page 1)
 	useEffect( () => {
-		if ( searchTerm || searchId ) {
-			searchPosts();
+		if ( ! debouncedTerm && ! debouncedId ) {
+			return;
 		}
+		if ( page !== 1 ) {
+			setPage( 1 );
+			return;
+		}
+		// Enforce minimum length for term search
+		if ( debouncedTerm && debouncedTerm.length < 2 ) {
+			return;
+		}
+		fetchPosts( { term: debouncedTerm, id: debouncedId, page: 1 } );
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [ debouncedTerm, debouncedId ] );
+
+	// Trigger search when page changes using current debounced inputs
+	useEffect( () => {
+		if ( ! debouncedTerm && ! debouncedId ) {
+			return;
+		}
+		// Enforce minimum length for term search
+		if ( debouncedTerm && debouncedTerm.length < 2 ) {
+			return;
+		}
+		fetchPosts( { term: debouncedTerm, id: debouncedId, page } );
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ page ] );
 
