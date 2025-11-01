@@ -10,7 +10,13 @@ Adds a Gutenberg block for inserting stylised links to posts and a WP-CLI comman
 
 == Description ==
 
-DMG Read More lets you easily add "Read More" links to your posts and pages using a custom block. Editors can search for and select a published post to insert as a link.
+DMG Read More lets you easily add "Read More" links to your posts and pages using a custom block:
+
+- Search: posts by title or content with live results
+- Direct ID lookup: Enter a specific post ID for quick selection
+- Pagination: browse through search results with prev/next controls.
+- Recent posts: Shows recent posts by default when no search is active.
+- Live preview: link updates in the editor as you select different posts.
 
 The plugin also provides a WP-CLI command to search for posts containing the block, with optional date range filters.
 
@@ -23,11 +29,16 @@ The plugin also provides a WP-CLI command to search for posts containing the blo
 
 = How do I use the block? =
 
-Add the "Read More" block in the block editor. Use the sidebar to search for and select a post. The block will display a link to the selected post.
+Add the "Read More" block in the block editor. Use the block sidebar to search posts by keywords or ID, browse results, and insert a link to the selected post.
 
 = What does the WP-CLI command do? =
 
-Run `wp dmg-read-more search` to find posts containing the block. You can use `--date-before` and `--date-after` to filter by date.
+Use the command to find posts containing the block. You can use `--date-before` and `--date-after` to filter by date: ```wp dmg-read-more search```
+
+With custom date range: `wp dmg-read-more search --date-after=2025-01-01 --date-before=2025-01-31`
+With custom batch size (for very large databases): `wp dmg-read-more search --batch-size=500`
+
+All dates must be in `Y-m-d` format (e.g., `2025-10-29`). Invalid date formats will trigger an error.
 
 == Changelog ==
 
