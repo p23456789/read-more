@@ -343,7 +343,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						<Button
 							variant="secondary"
 							onClick={ () => setPage( Math.max( 1, page - 1 ) ) }
-							disabled={ page === 1 }
+							disabled={ page <= 1 || isSearching }
 							icon={ chevronLeft }
 							label={ __( 'Previous page', 'dmg-read-more' ) }
 							showTooltip
@@ -361,7 +361,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							onClick={ () =>
 								setPage( Math.min( totalPages, page + 1 ) )
 							}
-							disabled={ page === totalPages }
+							disabled={ page >= totalPages || isSearching }
 							icon={ chevronRight }
 							label={ __( 'Next page', 'dmg-read-more' ) }
 							showTooltip
