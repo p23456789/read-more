@@ -359,7 +359,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				/>
 			) : (
 				<p { ...blockProps }>
-					{ __( 'Read more: ', 'dmg-read-more' ) }
+					{ __( 'Read more:', 'dmg-read-more' ) }{ ' ' }
 					<a href={ postUrl }>{ postTitle }</a>
 				</p>
 			) }

@@ -27,7 +27,7 @@ export default function save( { attributes } ) {
 
 	return (
 		<p { ...blockProps }>
-			{ __( 'Read More: ', 'dmg-read-more' ) }
+			{ __( 'Read more:', 'dmg-read-more' ) }{ ' ' }
 			<a href={ postUrl }>{ postTitle }</a>
 		</p>
 	);
