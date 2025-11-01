@@ -150,7 +150,7 @@ export default function Edit( { attributes, setAttributes } ) {
 
 		apiFetch( {
 			path: `/wp/v2/posts?${ searchParams.toString() }`,
-			parse: false
+			parse: false,
 		} )
 			.then( ( response ) => {
 				// Get total pages from headers
@@ -164,7 +164,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				);
 
 				// Parse the JSON response body
-				return response.json().then( posts => {
+				return response.json().then( ( posts ) => {
 					setSearchResults( posts );
 					setTotalPages( pages );
 					setIsSearching( false );
@@ -178,7 +178,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							)
 						);
 					}
-				});
+				} );
 			} )
 			.catch( ( error ) => {
 				setSearchResults( [] );
@@ -343,7 +343,9 @@ export default function Edit( { attributes, setAttributes } ) {
 										  ) }
 								</Heading>
 							</CardHeader>
-							<CardBody size="small">{ renderPostList() }</CardBody>
+							<CardBody size="small">
+								{ renderPostList() }
+							</CardBody>
 						</Card>
 					</div>
 				</PanelBody>
