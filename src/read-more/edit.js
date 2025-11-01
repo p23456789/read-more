@@ -10,8 +10,8 @@ import {
 	Button,
 	Spinner,
 	Placeholder,
-	Text,
-	Heading,
+	__experimentalText as Text,
+	__experimentalHeading as Heading,
 	Pagination,
 	SearchControl,
 	Notice,
@@ -148,31 +148,27 @@ export default function Edit( { attributes, setAttributes } ) {
 			_fields: 'id,title,date,link',
 		} );
 
-		apiFetch( {
-			path: `/wp/v2/posts?${ searchParams.toString() }`,
-			parse: false
-		} )
-			.then( ( response ) => {
+		apiFetch( { path: `/wp/v2/posts?${ searchParams.toString() }` } )
+			.then( ( posts ) => {
+				setSearchResults( posts );
+
 				// Get total pages from headers
 				const totalItems = parseInt(
-					response.headers.get( 'X-WP-Total' ) || 0,
+					posts?.headers?.get( 'X-WP-Total' ) || 0,
 					10
 				);
 				setTotalPages( Math.ceil( totalItems / postsPerPage ) );
+				setIsSearching( false );
 
-				return response.json().then( posts => {
-					setSearchResults( posts );
-					setIsSearching( false );
-
-					if ( posts.length === 0 ) {
-						setErrorMessage(
-							__(
-								'No posts found matching your search.',
-								'dmg-read-more'
-							)
-						);
-					}
-				});
+				// Show helpful message if no results
+				if ( posts.length === 0 ) {
+					setErrorMessage(
+						__(
+							'No posts found matching your search criteria.',
+							'dmg-read-more'
+						)
+					);
+				}
 			} )
 			.catch( ( error ) => {
 				setSearchResults( [] );
@@ -242,7 +238,9 @@ export default function Edit( { attributes, setAttributes } ) {
 									/>
 								</Heading>
 								<Text variant="muted">
-									{ new Date( post.date ).toLocaleDateString() }
+									{ new Date(
+										post.date
+									).toLocaleDateString() }
 								</Text>
 								{ post.id === postId && (
 									<Text className="dmg-read-more-selected">
@@ -280,6 +278,7 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	return (
 		<>
+			{ ' ' }
 			<InspectorControls>
 				<PanelBody title={ __( 'Select Post', 'dmg-read-more' ) }>
 					<SearchControl
@@ -306,7 +305,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 
 					<Button
-						primary
+						Primary
 						onClick={ searchPosts }
 						disabled={
 							( ! searchTerm && ! searchId ) || isSearching
@@ -328,18 +327,21 @@ export default function Edit( { attributes, setAttributes } ) {
 							<CardHeader>
 								<Heading level={ 3 }>
 									{ searchTerm || searchId
-										? __( 'Search Results', 'dmg-read-more' )
-										: __( 'Recent Posts', 'dmg-read-more' ) }
+										? __(
+												'Search Results',
+												'dmg-read-more'
+										  )
+										: __(
+												'Recent Posts',
+												'dmg-read-more'
+										  ) }
 								</Heading>
 							</CardHeader>
-							<CardBody>
-								{ renderPostList() }
-							</CardBody>
+							<CardBody>{ renderPostList() }</CardBody>
 						</Card>
 					</div>
 				</PanelBody>
 			</InspectorControls>
-
 			{ ! postId ? (
 				<Placeholder
 					label={ __( 'DMG Read More', 'dmg-read-more' ) }
@@ -351,7 +353,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				/>
 			) : (
 				<p { ...blockProps }>
-					{ __( 'Read More:&nbsp;', 'dmg-read-more' ) }
+					{ __( 'Read More:', 'dmg-read-more' ) }
 					<a href={ postUrl }>{ postTitle }</a>
 				</p>
 			) }
