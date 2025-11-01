@@ -22,7 +22,8 @@
 			"plugin:@wordpress/eslint-plugin/recommended"
 		],
 		"rules": {
-			"no-console": "off"
+			"no-console": "off",
+			"jsdoc/check-line-alignment": "off"
 		}
 	},
 	"dependencies": {

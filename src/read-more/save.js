@@ -4,8 +4,9 @@ import { useBlockProps } from '@wordpress/block-editor';
 /**
  * Save function for the block.
  *
- * @param {Object} props Block props.
- * @return {Element} Saved block markup.
+ * @param {Object} props              Block props.
+ * @param {Object} props.attributes   Saved attributes.
+ * @return {Element}                  Saved block markup.
  */
 export default function save( { attributes } ) {
 	const { postId, postTitle, postUrl } = attributes;

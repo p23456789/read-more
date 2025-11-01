@@ -1,6 +1,3 @@
-/**
- * WordPress dependencies
- */
 import { __, sprintf } from '@wordpress/i18n';
 import { useState, useEffect, useRef } from '@wordpress/element';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
@@ -27,6 +24,10 @@ import './editor.scss';
 
 /**
  * Debounce helper function.
+ *
+ * @param {*}      value   The input value to debounce.
+ * @param {number} delayMs Delay in milliseconds.
+ * @return {*}             The debounced value.
  */
 function useDebouncedValue( value, delayMs ) {
 	const [ debounced, setDebounced ] = useState( value );
@@ -128,6 +129,12 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	/**
 	 * Unified fetch function for term search and direct ID search.
+	 *
+	 * @param {Object}        [params]      Parameters object.
+	 * @param {string}        [params.term]  Search term for title.
+	 * @param {string|number} [params.id]    Direct post ID to fetch.
+	 * @param {number}        [params.page]  Page number for pagination.
+	 * @return {Promise<void>}               Promise that resolves when fetch completes.
 	 */
 	const fetchPosts = async ( {
 		term = '',
