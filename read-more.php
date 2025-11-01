@@ -17,7 +17,7 @@ namespace DMG;
 
 defined( 'ABSPATH' ) || exit;
 
-add_action( 'init', 'dmg_read_more_block_init' );
+add_action( 'init', __NAMESPACE__ . '\\dmg_read_more_block_init' );
 
 /**
  * Registers the block.
