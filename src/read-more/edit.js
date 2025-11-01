@@ -129,11 +129,17 @@ export default function Edit( { attributes, setAttributes } ) {
 	/**
 	 * Unified fetch function for term search and direct ID search.
 	 */
-	const fetchPosts = async ( { term = '', id = '', page: pageNumber = 1 } = {} ) => {
+	const fetchPosts = async ( {
+		term = '',
+		id = '',
+		page: pageNumber = 1,
+	} = {} ) => {
 		setIsSearching( true );
 		setErrorMessage( '' );
 
-		const cacheKey = `${ id ? 'id' : 'term' }:${ id || term }:${ pageNumber }`;
+		const cacheKey = `${ id ? 'id' : 'term' }:${
+			id || term
+		}:${ pageNumber }`;
 		if ( cacheRef.current.has( cacheKey ) ) {
 			const { posts, pages } = cacheRef.current.get( cacheKey );
 			setSearchResults( posts );
@@ -161,7 +167,10 @@ export default function Edit( { attributes, setAttributes } ) {
 				cacheRef.current.set( cacheKey, { posts, pages: 1 } );
 				if ( posts.length === 0 ) {
 					setErrorMessage(
-						__( 'Post not found. Please check the ID and try again.', 'dmg-read-more' )
+						__(
+							'Post not found. Please check the ID and try again.',
+							'dmg-read-more'
+						)
 					);
 				}
 				return;
@@ -181,7 +190,10 @@ export default function Edit( { attributes, setAttributes } ) {
 				signal: controller.signal,
 			} );
 
-			const pages = parseInt( response.headers.get( 'X-WP-TotalPages' ) || '1', 10 );
+			const pages = parseInt(
+				response.headers.get( 'X-WP-TotalPages' ) || '1',
+				10
+			);
 			const posts = await response.json();
 
 			setSearchResults( posts );
@@ -196,7 +208,12 @@ export default function Edit( { attributes, setAttributes } ) {
 			}
 			setSearchResults( [] );
 			setTotalPages( 0 );
-			setErrorMessage( __( 'Error searching posts. Please try again later.', 'dmg-read-more' ) );
+			setErrorMessage(
+				__(
+					'Error searching posts. Please try again later.',
+					'dmg-read-more'
+				)
+			);
 			console.error( 'API Error:', error );
 		} finally {
 			setIsSearching( false );
