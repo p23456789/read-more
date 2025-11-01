@@ -9,7 +9,7 @@ return array(
 		'title' => 'DMG Read More',
 		'category' => 'text',
 		'icon' => 'admin-links',
-		'description' => 'Inserts stylised links to related articles.',
+		'description' => 'Insert a stylised link to a published post.',
 		'example' => array(
 			
 		),
@@ -33,7 +33,6 @@ return array(
 		'textdomain' => 'dmg-read-more',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css',
-		'viewScript' => 'file:./view.js'
+		'style' => 'file:./style-index.css'
 	)
 );
