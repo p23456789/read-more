@@ -6,7 +6,7 @@ import { useBlockProps } from '@wordpress/block-editor';
 
 /**
  * The save function defines the way in which the different attributes should
- * be combined into the final markup, which is then serialized by the block
+ * be combined into the final markup, which is then serialised by the block
  * editor into `post_content`.
  *
  * @param {Object} props            Block props.
@@ -27,7 +27,7 @@ export default function save( { attributes } ) {
 
 	return (
 		<p { ...blockProps }>
-			{ __( 'Read More:', 'dmg-read-more' ) }
+			{ __( 'Read More: ', 'dmg-read-more' ) }
 			<a href={ postUrl }>{ postTitle }</a>
 		</p>
 	);
