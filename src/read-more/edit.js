@@ -47,7 +47,7 @@ export default function Edit( { attributes, setAttributes } ) {
 	const [ page, setPage ] = useState( 1 );
 	const [ totalPages, setTotalPages ] = useState( 1 );
 	const [ errorMessage, setErrorMessage ] = useState( '' );
-	const postsPerPage = 10;
+	const postsPerPage = 5;
 
 	// Get recent posts for initial display - limited fetch with only needed fields
 	const recentPosts = useSelect( ( select ) => {
