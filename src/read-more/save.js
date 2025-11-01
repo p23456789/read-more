@@ -1,23 +1,17 @@
-/**
- * WordPress dependencies
- */
 import { __ } from '@wordpress/i18n';
 import { useBlockProps } from '@wordpress/block-editor';
 
 /**
- * The save function defines the way in which the different attributes should
- * be combined into the final markup, which is then serialised by the block
- * editor into `post_content`.
+ * Save function for the block.
  *
- * @param {Object} props            Block props.
- * @param {Object} props.attributes
- * @return {Element} Element to render.
+ * @param {Object} props Block props.
+ * @return {Element} Saved block markup.
  */
 export default function save( { attributes } ) {
 	const { postId, postTitle, postUrl } = attributes;
 
-	// If no post is selected, don't render anything
-	if ( ! postId || ! postTitle || ! postUrl ) {
+	// If no post is selected, don't render anything.
+	if ( ! postTitle || ! postUrl ) {
 		return null;
 	}
 
@@ -28,7 +22,7 @@ export default function save( { attributes } ) {
 	return (
 		<p { ...blockProps }>
 			{ __( 'Read more:', 'dmg-read-more' ) }{ ' ' }
-			<a href={ postUrl }>{ postTitle }</a>
+			<a href={ postUrl }>Read More: { postTitle }</a>
 		</p>
 	);
 }
