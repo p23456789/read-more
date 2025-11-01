@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function load_readmore_block() : void {
 
-	$build_path = plugin_dir_path( __FILE__ ) . 'build';
+	$build_path = plugin_dir_path( __DIR__ ) . 'build';
 	if ( ! file_exists( $build_path . '/blocks-manifest.php' ) ) {
 		return;
 	}
