@@ -13,6 +13,20 @@ return array(
 		'example' => array(
 			
 		),
+		'attributes' => array(
+			'postId' => array(
+				'type' => 'number',
+				'default' => 0
+			),
+			'postTitle' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'postUrl' => array(
+				'type' => 'string',
+				'default' => ''
+			)
+		),
 		'supports' => array(
 			'html' => false
 		),

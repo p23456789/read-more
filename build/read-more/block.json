@@ -8,6 +8,20 @@
   "icon": "admin-links",
   "description": "Inserts stylised links to related articles.",
   "example": {},
+  "attributes": {
+    "postId": {
+      "type": "number",
+      "default": 0
+    },
+    "postTitle": {
+      "type": "string",
+      "default": ""
+    },
+    "postUrl": {
+      "type": "string",
+      "default": ""
+    }
+  },
   "supports": {
     "html": false
   },

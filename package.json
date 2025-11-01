@@ -24,5 +24,8 @@
 		"rules": {
 			"no-console": "off"
 		}
+	},
+	"dependencies": {
+		"@wordpress/icons": "^10.23.0"
 	}
 }
