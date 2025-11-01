@@ -205,9 +205,6 @@ export default function Edit( { attributes, setAttributes } ) {
 			setSearchResults( posts );
 			setTotalPages( pages );
 			cacheRef.current.set( cacheKey, { posts, pages } );
-			if ( posts.length === 0 ) {
-				setErrorMessage( __( 'No posts found.', 'dmg-read-more' ) );
-			}
 		} catch ( error ) {
 			if ( error && error.name === 'AbortError' ) {
 				return;
