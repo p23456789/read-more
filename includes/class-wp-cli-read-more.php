@@ -76,7 +76,7 @@ class WP_CLI_Read_More extends WPCOM_VIP_CLI_Command {
 			\WP_CLI::error( 'Batch size must be a positive number.' );
 		}
 
-		WP_CLI::log( sprintf( 'Searching posts from %s to %s...', $date_after, $date_before ) );
+		\WP_CLI::log( sprintf( 'Searching posts from %s to %s...', $date_after, $date_before ) );
 
 		do {
 			$query_args = [
@@ -112,7 +112,7 @@ class WP_CLI_Read_More extends WPCOM_VIP_CLI_Command {
 			}
 
 			$offset += $per_page;
-			WP_CLI::log( sprintf( 'Processed %d posts...', $offset ) );
+			\WP_CLI::log( sprintf( 'Processed %d posts...', $offset ) );
 		} while ( $found === $per_page );
 
 		if ( empty( $results ) ) {
