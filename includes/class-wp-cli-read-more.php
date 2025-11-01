@@ -6,7 +6,7 @@ namespace DMG;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * WP-CLI commands for the plugin.
+ * Search for posts containing the DMG Read More block within a date range.
  */
 class WP_CLI_Read_More extends WPCOM_VIP_CLI_Command {
 
@@ -34,7 +34,7 @@ class WP_CLI_Read_More extends WPCOM_VIP_CLI_Command {
 	 *   - ids
 	 * ---
 	 *
-	 * [--per-page=<number>]
+	 * [--batch_size=<number>]
 	 * : Maximum number of posts to process at once.
 	 * ---
 	 * default: 2000
@@ -53,7 +53,6 @@ class WP_CLI_Read_More extends WPCOM_VIP_CLI_Command {
 	 *
 	 * @param array $args       Positional arguments.
 	 * @param array $assoc_args Associative arguments.
-	 * @when after_wp_load
 	 *
 	 * @return void
 	 */
@@ -68,10 +67,16 @@ class WP_CLI_Read_More extends WPCOM_VIP_CLI_Command {
 			\WP_CLI::error( 'Invalid date format. Use YYYY-MM-DD.' );
 		}
 
-		// Pagination.
+		// Batching required: be kind to memory/execution limits.
 		$offset   = 0;
-		$per_page = isset( $assoc_args['per-page'] ) ? absint( $assoc_args['per-page'] ) : 2000;
+		$per_page = isset( $assoc_args['batch_size'] ) ? absint( $assoc_args['batch_size'] ) : 2000;
 		$results  = [];
+
+		if ( $per_page < 1 ) {
+			\WP_CLI::error( 'Batch size must be a positive number.' );
+		}
+
+		WP_CLI::log( sprintf( 'Searching posts from %s to %s...', $date_after, $date_before ) );
 
 		do {
 			// Use direct SQL for performance; uses the type_status_date index.
@@ -99,6 +104,7 @@ class WP_CLI_Read_More extends WPCOM_VIP_CLI_Command {
 			}
 
 			$offset += $per_page;
+			WP_CLI::log( sprintf( 'Processed %d posts...', $offset ) );
 		} while ( $found === $per_page );
 
 		if ( empty( $results ) ) {
@@ -127,10 +133,11 @@ class WP_CLI_Read_More extends WPCOM_VIP_CLI_Command {
 	/**
 	 * Validates a date string format.
 	 *
-	 * @param string $date Date string to validate.
-	 * @return bool True if date format is valid, false otherwise.
+	 * @param string $date|null Date string to validate.
+	 *
+	 * @return bool True if date format is matchin, false otherwise.
 	 */
-	protected function validate_date_format( string $date ) : bool {
+	protected function validate_date_format( $date ) : bool {
 		return (bool) preg_match( '/^\d{4}-\d{2}-\d{2}$/', $date );
 	}
 }
