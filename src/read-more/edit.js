@@ -253,11 +253,6 @@ export default function Edit( { attributes, setAttributes } ) {
 										post.date
 									).toLocaleDateString() }
 								</Text>
-								{ post.id === postId && (
-									<Text className="dmg-read-more-selected">
-										{ __( 'Selected', 'dmg-read-more' ) }
-									</Text>
-								) }
 							</CardBody>
 						</Card>
 					) ) }
