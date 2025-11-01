@@ -237,6 +237,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							role="option"
 							aria-selected={ post.id === postId }
 							isBorderless={ post.id !== postId }
+							size="small"
 							isRounded
 						>
 							<CardBody>
@@ -334,7 +335,7 @@ export default function Edit( { attributes, setAttributes } ) {
 
 					<div className="dmg-read-more-results-container">
 						<Card>
-							<CardHeader>
+							<CardHeader size="small">
 								<Heading level={ 3 }>
 									{ searchTerm || searchId
 										? __(
@@ -347,7 +348,7 @@ export default function Edit( { attributes, setAttributes } ) {
 										  ) }
 								</Heading>
 							</CardHeader>
-							<CardBody>{ renderPostList() }</CardBody>
+							<CardBody size="small">{ renderPostList() }</CardBody>
 						</Card>
 					</div>
 				</PanelBody>
