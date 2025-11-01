@@ -126,6 +126,83 @@ export default function Edit( { attributes, setAttributes } ) {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ postId, postTitle, postUrl ] );
 
+	/**
+	 * Unified fetch function for term search and direct ID search.
+	 */
+	const fetchPosts = async ( { term = '', id = '', page: pageNumber = 1 } = {} ) => {
+		setIsSearching( true );
+		setErrorMessage( '' );
+
+		const cacheKey = `${ id ? 'id' : 'term' }:${ id || term }:${ pageNumber }`;
+		if ( cacheRef.current.has( cacheKey ) ) {
+			const { posts, pages } = cacheRef.current.get( cacheKey );
+			setSearchResults( posts );
+			setTotalPages( pages );
+			setIsSearching( false );
+			return;
+		}
+
+		// Cancel any in-flight request
+		if ( abortRef.current ) {
+			abortRef.current.abort();
+		}
+		const controller = new AbortController();
+		abortRef.current = controller;
+
+		try {
+			if ( id ) {
+				const post = await apiFetch( {
+					path: `/wp/v2/posts/${ id }?_fields=id,title,date,link`,
+					signal: controller.signal,
+				} );
+				const posts = post ? [ post ] : [];
+				setSearchResults( posts );
+				setTotalPages( 1 );
+				cacheRef.current.set( cacheKey, { posts, pages: 1 } );
+				if ( posts.length === 0 ) {
+					setErrorMessage(
+						__( 'Post not found. Please check the ID and try again.', 'dmg-read-more' )
+					);
+				}
+				return;
+			}
+
+			const searchParams = new URLSearchParams( {
+				search: term,
+				page: pageNumber.toString(),
+				per_page: postsPerPage.toString(),
+				status: 'publish',
+				_fields: 'id,title,date,link',
+			} );
+
+			const response = await apiFetch( {
+				path: `/wp/v2/posts?${ searchParams.toString() }`,
+				parse: false,
+				signal: controller.signal,
+			} );
+
+			const pages = parseInt( response.headers.get( 'X-WP-TotalPages' ) || '1', 10 );
+			const posts = await response.json();
+
+			setSearchResults( posts );
+			setTotalPages( pages );
+			cacheRef.current.set( cacheKey, { posts, pages } );
+			if ( posts.length === 0 ) {
+				setErrorMessage( __( 'No posts found.', 'dmg-read-more' ) );
+			}
+		} catch ( error ) {
+			if ( error && error.name === 'AbortError' ) {
+				return;
+			}
+			setSearchResults( [] );
+			setTotalPages( 0 );
+			setErrorMessage( __( 'Error searching posts. Please try again later.', 'dmg-read-more' ) );
+			console.error( 'API Error:', error );
+		} finally {
+			setIsSearching( false );
+		}
+	};
+
 	// Search posts by title
 	const searchPosts = () => {
 		setIsSearching( true );
