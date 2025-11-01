@@ -8,15 +8,15 @@ return array(
 		'version' => '0.1.0',
 		'title' => 'DMG Read More',
 		'category' => 'text',
-		'icon' => 'smiley',
-		'description' => 'Example block scaffolded with Create Block tool.',
+		'icon' => 'admin-links',
+		'description' => 'Inserts stylised links to related articles.',
 		'example' => array(
 			
 		),
 		'supports' => array(
 			'html' => false
 		),
-		'textdomain' => 'dmg',
+		'textdomain' => 'dmg-read-more',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
