@@ -12,11 +12,8 @@ import {
 	Placeholder,
 	__experimentalText as Text,
 	__experimentalHeading as Heading,
-	SearchControl,
 	Notice,
-	Card,
-	CardBody,
-	CardHeader,
+	SearchControl,
 } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { store as coreDataStore } from '@wordpress/core-data';
@@ -210,18 +207,17 @@ export default function Edit( { attributes, setAttributes } ) {
 
 		return (
 			<>
-				<div
+				<ul
 					className="dmg-read-more-search-results"
 					role="listbox"
 					aria-label={ __( 'Posts list', 'dmg-read-more' ) }
 				>
 					{ searchResults.map( ( post ) => (
-						<Card
+						<li
 							key={ post.id }
 							className="dmg-read-more-search-result"
 							onClick={ () => selectPost( post ) }
 							onKeyDown={ ( e ) => {
-								// Handle keyboard accessibility
 								if ( e.key === 'Enter' || e.key === ' ' ) {
 									e.preventDefault();
 									selectPost( post );
@@ -230,27 +226,20 @@ export default function Edit( { attributes, setAttributes } ) {
 							tabIndex="0"
 							role="option"
 							aria-selected={ post.id === postId }
-							isBorderless={ post.id !== postId }
-							size="small"
-							isRounded
 						>
-							<CardBody>
-								<Heading level={ 4 }>
-									<span
-										dangerouslySetInnerHTML={ {
-											__html: post.title.rendered,
-										} }
-									/>
-								</Heading>
-								<Text variant="muted">
-									{ new Date(
-										post.date
-									).toLocaleDateString() }
-								</Text>
-							</CardBody>
-						</Card>
+							<Heading level={ 4 }>
+								<span
+									dangerouslySetInnerHTML={ {
+										__html: post.title.rendered,
+									} }
+								/>
+							</Heading>
+							<Text variant="muted">
+								{ new Date( post.date ).toLocaleDateString() }
+							</Text>
+						</li>
 					) ) }
-				</div>
+				</ul>
 
 				{ totalPages > 1 && (
 					<div className="dmg-read-more-pagination">
@@ -346,24 +335,12 @@ export default function Edit( { attributes, setAttributes } ) {
 					) }
 
 					<div className="dmg-read-more-results-container">
-						<Card>
-							<CardHeader size="small">
-								<Heading level={ 3 }>
-									{ searchTerm || searchId
-										? __(
-												'Search Results',
-												'dmg-read-more'
-										  )
-										: __(
-												'Recent Posts',
-												'dmg-read-more'
-										  ) }
-								</Heading>
-							</CardHeader>
-							<CardBody size="small">
-								{ renderPostList() }
-							</CardBody>
-						</Card>
+						<Heading level={ 3 }>
+							{ searchTerm || searchId
+								? __( 'Search Results', 'dmg-read-more' )
+								: __( 'Recent Posts', 'dmg-read-more' ) }
+						</Heading>
+						<div>{ renderPostList() }</div>
 					</div>
 				</PanelBody>
 			</InspectorControls>
