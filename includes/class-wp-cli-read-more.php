@@ -79,25 +79,33 @@ class WP_CLI_Read_More extends WPCOM_VIP_CLI_Command {
 		WP_CLI::log( sprintf( 'Searching posts from %s to %s...', $date_after, $date_before ) );
 
 		do {
-			// Use direct SQL for performance; uses the type_status_date index.
-			$sql = $wpdb->prepare(
-				"SELECT ID FROM {$wpdb->posts}
-				WHERE post_type = 'post'
-				AND post_status = 'publish'
-				AND post_date >= %s
-				AND post_date <= %s
-				AND post_content LIKE %s
-				ORDER BY post_date DESC
-				LIMIT %d OFFSET %d",
-				$date_after . ' 00:00:00',
-				$date_before . ' 23:59:59',
-				'%' . $wpdb->esc_like( '<!-- wp:dmg/read-more' ) . '%',
-				$per_page,
-				$offset
-			);
+			$query_args = [
+				'post_type'              => 'post',
+				'post_status'            => 'publish',
+				'date_query'             => [
+					[
+						'after'     => $date_after . ' 00:00:00',
+						'before'    => $date_before . ' 23:59:59',
+						'inclusive' => true,
+					],
+				],
+				'cache_results'          => false,
+				'fields'                 => 'ids',
+				'no_found_rows'          => true,
+				'offset'                 => $offset,
+				'order'                  => 'DESC',
+				'orderby'                => 'date',
+				'posts_per_page'         => $per_page,
+				's'                      => '<!-- wp:dmg/read-more',
+				'search_columns'         => [ 'post_content' ],
+				'suppress_filters'       => true,
+				'update_menu_item_cache' => false,
+				'update_post_meta_cache' => false,
+				'update_post_term_cache' => false,
+			];
 
-			$posts = $wpdb->get_col( $sql );
-			$found = count( $posts );
+			$posts = get_posts( $query_args );
+			$found = is_array( $posts ) ? count( $posts ) : 0;
 
 			foreach ( $posts as $post_id ) {
 				$results[] = (int) $post_id;
