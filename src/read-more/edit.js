@@ -316,7 +316,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 
 					<Button
-						Primary
+						variant="primary"
 						onClick={ searchPosts }
 						disabled={
 							( ! searchTerm && ! searchId ) || isSearching
