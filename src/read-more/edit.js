@@ -148,27 +148,31 @@ export default function Edit( { attributes, setAttributes } ) {
 			_fields: 'id,title,date,link',
 		} );
 
-		apiFetch( { path: `/wp/v2/posts?${ searchParams.toString() }` } )
-			.then( ( posts ) => {
-				setSearchResults( posts );
-
+		apiFetch( {
+			path: `/wp/v2/posts?${ searchParams.toString() }`,
+			parse: false
+		} )
+			.then( ( response ) => {
 				// Get total pages from headers
 				const totalItems = parseInt(
-					posts?.headers?.get( 'X-WP-Total' ) || 0,
+					response.headers.get( 'X-WP-Total' ) || 0,
 					10
 				);
 				setTotalPages( Math.ceil( totalItems / postsPerPage ) );
-				setIsSearching( false );
 
-				// Show helpful message if no results
-				if ( posts.length === 0 ) {
-					setErrorMessage(
-						__(
-							'No posts found matching your search criteria.',
-							'dmg-read-more'
-						)
-					);
-				}
+				return response.json().then( posts => {
+					setSearchResults( posts );
+					setIsSearching( false );
+
+					if ( posts.length === 0 ) {
+						setErrorMessage(
+							__(
+								'No posts found matching your search.',
+								'dmg-read-more'
+							)
+						);
+					}
+				});
 			} )
 			.catch( ( error ) => {
 				setSearchResults( [] );
@@ -302,7 +306,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 
 					<Button
-						isPrimary
+						primary
 						onClick={ searchPosts }
 						disabled={
 							( ! searchTerm && ! searchId ) || isSearching
