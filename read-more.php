@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 /**
  * Plugin Name:       DMG Read More
- * Description:       Insert stylised links to related articles.
+ * Description:       Insert stylised posts linkså.
  * Version:           0.1.0
- * Requires at least: 6.8.1
- * Requires PHP:      8.2
+ * Requires at least: 6.8
+ * Requires PHP:      8.4
  * Author:            Paul Wong-Gibbs
  * License:           GPL-3.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
