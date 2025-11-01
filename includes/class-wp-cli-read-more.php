@@ -86,7 +86,7 @@ class WP_CLI_Read_More extends \WP_CLI_Command {
 				LIMIT %d OFFSET %d",
 				$date_after . ' 00:00:00',
 				$date_before . ' 23:59:59',
-				'%' . $wpdb->esc_like( '<!-- wp:dmg/read-more -->' ) . '%',
+				'%' . $wpdb->esc_like( '<!-- wp:dmg/read-more' ) . '%',
 				$per_page,
 				$offset
 			);
