@@ -6,7 +6,7 @@
 	"title": "DMG Read More",
 	"category": "text",
 	"icon": "admin-links",
-	"description": "Inserts stylised links to related articles.",
+	"description": "Insert a stylised links to a published post.",
 	"example": {},
 	"attributes": {
 		"postId": {
