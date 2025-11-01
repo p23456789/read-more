@@ -18,7 +18,7 @@ namespace DMG;
 defined( 'ABSPATH' ) || exit;
 
 require_once __DIR__ . '/includes/block.php';
-add_action( 'init', __NAMESPACE__ . '\\dmg_read_more_block_init' );
+add_action( 'init', __NAMESPACE__ . '\\load_readmore_block' );
 
 if ( class_exists( '\WP_CLI' ) ) {
 	require_once __DIR__ . '/includes/class-wp-cli-read-more.php';

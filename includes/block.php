@@ -10,13 +10,15 @@ defined( 'ABSPATH' ) || exit;
  *
  * @return void
  */
-function dmg_read_more_block_init() : void {
-	if ( ! file_exists( __DIR__ . '/../build/blocks-manifest.php' ) ) {
+function load_readmore_block() : void {
+
+	$build_path = plugin_dir_path( __FILE__ ) . 'build';
+	if ( ! file_exists( $build_path . '/blocks-manifest.php' ) ) {
 		return;
 	}
 
 	wp_register_block_types_from_metadata_collection(
-		__DIR__ . '/../build',
-		__DIR__ . '/../build/blocks-manifest.php'
+		$build_path,
+		$build_path . '/blocks-manifest.php'
 	);
 }
