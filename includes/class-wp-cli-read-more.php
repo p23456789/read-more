@@ -61,8 +61,8 @@ class WP_CLI_Read_More extends WPCOM_VIP_CLI_Command {
 		global $wpdb;
 
 		// Date range.
-		$date_before = $assoc_args['date-before'] ?? date( 'Y-m-d' );
-		$date_after  = $assoc_args['date-after']  ?? date( 'Y-m-d', strtotime( '-30 days' ) );
+		$date_before = $assoc_args['date-before'] ?? gmdate( 'Y-m-d' );
+		$date_after  = $assoc_args['date-after']  ?? gmdate( 'Y-m-d', strtotime( '-30 days' ) );
 
 		if ( ! $this->validate_date_format( $date_before ) || ! $this->validate_date_format( $date_after ) ) {
 			\WP_CLI::error( 'Invalid date format. Use YYYY-MM-DD.' );
