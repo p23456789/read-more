@@ -7,8 +7,11 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Search for posts containing the DMG Read More block within a date range.
+ *
+ * On a real VIP site, we'd extend the `wpcom-vip-cli-command` class here.
  */
-class WP_CLI_Read_More extends WPCOM_VIP_CLI_Command {
+// phpcs:ignore WordPressVIPMinimum.Classes.RestrictedExtendClasses.wp_cli
+class WP_CLI_Read_More extends \WP_CLI_Command {
 
 	/**
 	 * Find posts containing the DMG Read More block, within a date range.
