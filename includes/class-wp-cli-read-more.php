@@ -122,8 +122,6 @@ class WP_CLI_Read_More extends \WP_CLI_Command {
 			);
 			\WP_CLI\Utils\format_items( $format, $formatted_results, [ 'ID' ] );
 		}
-
-		\WP_CLI::success( sprintf( 'Found %d posts with the Read More block.', count( $post_ids ) ) );
 	}
 
 	/**
