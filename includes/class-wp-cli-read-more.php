@@ -8,7 +8,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * WP-CLI commands for the plugin.
  */
-class WP_CLI_Read_More extends \WP_CLI_Command {
+class WP_CLI_Read_More extends WPCOM_VIP_CLI_Command {
 
 	/**
 	 * Find posts containing the DMG Read More block, within a date range.
