@@ -16,5 +16,13 @@
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^30.16.0"
+	},
+	"eslintConfig": {
+		"extends": [
+			"plugin:@wordpress/eslint-plugin/recommended"
+		],
+		"rules": {
+			"no-console": "off"
+		}
 	}
 }
